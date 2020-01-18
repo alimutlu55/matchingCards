@@ -213,11 +213,6 @@ export default class CardScreen extends Component {
     }
 
     loadStage(stage) {
-        const Banner = firebase.admob.Banner;
-        const AdRequest = firebase.admob.AdRequest;
-        const request = new AdRequest();
-        const unitId = 'ca-app-pub-8367276121301574/2138547137';
-
         if (!this.lock) {        //SetSTATE yaptıgında sürekli kartları yenilemesin diye bölümlere lock koydum.
             this.loadControls(stage);
         }
@@ -241,7 +236,7 @@ export default class CardScreen extends Component {
                                         <Image style={{ width: 60, height: 40 }} source={require("../../images/icons/icnHomePage.png")} />
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{ height: height * 77 / 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                <View style={{ height: height * 77 / 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: width }}>
                                     <View style={{ width: width / this.cardListWidth, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                                         {this.cardList.map((item) => {
                                             return (
@@ -252,28 +247,6 @@ export default class CardScreen extends Component {
                                     <View style={{ backgroundColor: 'red', borderWidth: 1, borderRadius: 10, marginBottom: 25, width: 18, height: height / 1.3, justifyContent: 'flex-end', alignItems: 'center' }}>
                                         <View style={{ borderRadius: 10, backgroundColor: 'green', width: 18, height: this.timerHeight, alignItems: 'flex-start' }} />
                                     </View>
-
-                                    {/* <ImageBackground style={{ marginBottom: 25, width: 28, height: height / 1.3, justifyContent: 'flex-end', alignItems: 'center' }}
-                                    source={require('../../images/timer/time2.png')}>
-                                    <Image style={{ width: 18, height: this.timerHeight, alignItems: 'flex-start' }}
-                                        source={require('../../images/timer/time.png')}>
-                                    </Image>
-                                </ImageBackground> */}
-                                </View>
-                                <View
-                                    style={{
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                    }}>
-                                    <Banner
-                                        unitId={unitId}
-                                        size={'SMART_BANNER'}
-                                        request={request.build()}
-                                    />
                                 </View>
                             </ImageBackground>
                         </View>
@@ -302,7 +275,7 @@ export default class CardScreen extends Component {
                                     <Image style={{ width: 60, height: 40 }} source={require("../../images/icons/icnHomePage.png")} />
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ height: height * 77 / 100, alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ height: height * 77 / 100, alignItems: 'center', justifyContent: 'center', width: width }}>
                                 <View style={{ width: width / this.cardListWidth, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                                     {this.cardList.map((item) => {
                                         return (
@@ -310,21 +283,6 @@ export default class CardScreen extends Component {
                                         )
                                     })}
                                 </View>
-                            </View>
-                            <View
-                                style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                }}>
-                                <Banner
-                                    unitId={unitId}
-                                    size={'SMART_BANNER'}
-                                    request={request.build()}
-                                />
                             </View>
                         </ImageBackground>
                     </View>
@@ -336,7 +294,7 @@ export default class CardScreen extends Component {
             } else {
                 this.endOfStage();
                 return (
-                    <PassingScreen currentStage={stage} onClick={() => this.changeStage(stage)} />
+                    <PassingScreen gameType={this.gameType} currentStage={stage} onClick={() => this.changeStage(stage)} />
                 )
             }
         }

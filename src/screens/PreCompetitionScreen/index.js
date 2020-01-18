@@ -27,21 +27,8 @@ export default class index extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.showThirdInterstitial();
-        }, 7000)
-    }
 
-    showThirdInterstitial = () => {
-        const unitInterstitialID = 'ca-app-pub-8367276121301574/6529218283'
-        const advert = firebase.admob().interstitial(unitInterstitialID);
-        const AdRequest = firebase.admob.AdRequest;
-        const request = new AdRequest();
-        advert.loadAd(request.build());
-        advert.on('onAdLoaded', () => {
-            advert.show();
-        });
-    };
+    }
     selectChracter(item) {
         if (this.selectedPlayer == 'Player1') {
             this.isPlayer1Selected = true;
@@ -94,10 +81,6 @@ export default class index extends Component {
         this.isFirstSelect = true
     }
     render() {
-        const Banner = firebase.admob.Banner;
-        const AdRequest = firebase.admob.AdRequest;
-        const request = new AdRequest();
-        const unitId = 'ca-app-pub-8367276121301574/2138547137';
         return (
             <View>
                 <StatusBar hidden={true} />
@@ -188,21 +171,6 @@ export default class index extends Component {
                                 })}
                             </SafeAreaView>
                         </View>
-                    </View>
-                    <View
-                        style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0
-                        }}>
-                        <Banner
-                            unitId={unitId}
-                            size={'SMART_BANNER'}
-                            request={request.build()}
-                        />
                     </View>
                 </ImageBackground>
             </View>

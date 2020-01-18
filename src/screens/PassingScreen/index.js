@@ -26,9 +26,10 @@ export default class index extends Component {
         });
     };
     render() {
-
-        if (this.props.currentStage == '5' || this.props.currentStage == '7') {
-            this.showThirdInterstitial();
+        if (this.props.gameType != 'timely') {
+            if (this.props.currentStage == '4' || this.props.currentStage == '6' || this.props.currentStage == '8') {
+                this.showThirdInterstitial();
+            }
         }
         const Banner = firebase.admob.Banner;
         const AdRequest = firebase.admob.AdRequest;
@@ -48,21 +49,6 @@ export default class index extends Component {
                             <Image style={{ width: 150, height: 110 }}
                                 source={require("../../images/icons/txtPassingScreen.png")} />
                         </TouchableOpacity>
-                    </View>
-                    <View
-                        style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0
-                        }}>
-                        <Banner
-                            unitId={unitId}
-                            size={'SMART_BANNER'}
-                            request={request.build()}
-                        />
                     </View>
                 </ImageBackground >
             </View>

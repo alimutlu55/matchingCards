@@ -43,13 +43,6 @@ export default class index extends Component {
     componentWillUnmount() {
         this.backHandler.remove()
     }
-    showThirdInterstitial = () => {
-        const unitInterstitialID = 'ca-app-pub-8367276121301574/6529218283'
-        const advert = firebase.admob().interstitial(unitInterstitialID);
-        const AdRequest = firebase.admob.AdRequest;
-        const request = new AdRequest();
-        advert.loadAd(request.build());
-    };
 
     handleBackPress = () => {
         this.endOfStage();
@@ -206,10 +199,6 @@ export default class index extends Component {
 
 
     render() {
-        const Banner = firebase.admob.Banner;
-        const AdRequest = firebase.admob.AdRequest;
-        const request = new AdRequest();
-        const unitId = 'ca-app-pub-8367276121301574/2138547137';
 
         if (!this.isFilled) {
             if (this.difficulty == "Easy") {
@@ -261,7 +250,7 @@ export default class index extends Component {
 
                             </View>
 
-                            <View style={{ justifyContent: 'center', alignItems: 'center', height: height * 60 / 100, paddingTop: 10 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', height: height * 70 / 100, paddingTop: 10 }}>
                                 <View style={{ width: width / this.gameSizeWidthRate, height: height / this.gameSizeHeightRate, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'center' }}>
                                     {this.cardList.map((item) => {
                                         return (
@@ -270,21 +259,6 @@ export default class index extends Component {
                                     })}
                                 </View>
                             </View>
-                        </View>
-                        <View
-                            style={{
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0
-                            }}>
-                            <Banner
-                                unitId={unitId}
-                                size={'SMART_BANNER'}
-                                request={request.build()}
-                            />
                         </View>
                     </ImageBackground>
                 </View>
