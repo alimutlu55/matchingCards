@@ -14,9 +14,9 @@ export default class HomeScreen extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.backHandler.remove()
-    }
+    UNSAFE_componentWillMount() {
+        StatusBar.setHidden(true);
+      }
 
     componentDidMount() {
         SplashScreen.hide();
@@ -43,7 +43,6 @@ export default class HomeScreen extends Component {
     render() {
         return (
             <View>
-                <StatusBar hidden={true} />
                 <ImageBackground
                     source={require("../../images/wallpaper/gameScreen.png")}
                     style={{ width: width, height: height }}>
