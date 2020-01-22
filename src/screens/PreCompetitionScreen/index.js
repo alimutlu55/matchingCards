@@ -16,7 +16,7 @@ export default class index extends Component {
             player1: {},
             player2: {},
             visible: false,
-            hardship: hardShip[1]
+            hardship: hardShip[1],
         };
 
         this.isPlayer1Selected = false
@@ -24,11 +24,25 @@ export default class index extends Component {
         this.selectedPlayer = 'Player1'
         this.isFirstSelect = true
         this.index = 1;
+        this.cardType = this.props.navigation.state.params.cardType
     }
 
     componentDidMount() {
 
     }
+
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('cardType');
+            if (value !== null) {
+                this.setState({ cardType: value })
+                console.log('yeni değer', value);
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
+
     selectChracter(item) {
         if (this.selectedPlayer == 'Player1') {
             this.isPlayer1Selected = true;
@@ -68,7 +82,7 @@ export default class index extends Component {
 
     changeScreen() {
         if (this.startGameControls()) {
-            this.props.navigation.navigate('Competition', { player1: this.state.player1, player2: this.state.player2, difficulty: this.state.hardship.id });
+            this.props.navigation.navigate('Competition', { player1: this.state.player1, player2: this.state.player2, difficulty: this.state.hardship.id, cardType: this.cardType });
             this.endOfPage();
         } else {
             this.setState({ visible: true })

@@ -8,6 +8,7 @@ import CompetitionScreen from '../screens/CompetitionScreen'
 import PreCompetitionScreen from '../screens/PreCompetitionScreen'
 import GameFinishScreen from '../screens/GameFinishScreen'
 import EndOfGameScreen from '../screens/EndOfGameScreen'
+import CardSelectScreen from '../screens/CardSelectScreen'
 
 const AppNavigator = createStackNavigator(
     {
@@ -16,7 +17,8 @@ const AppNavigator = createStackNavigator(
         GameFinish: GameFinishScreen,
         Competition: CompetitionScreen,
         PreCompetition: PreCompetitionScreen,
-        EndOfGame: EndOfGameScreen
+        EndOfGame: EndOfGameScreen,
+        CardSelect: CardSelectScreen
     },
     {
         initialRouteName: 'Home',

@@ -62,8 +62,8 @@ const styles = StyleSheet.create([
 
     },
     {
-        height: height / 6,
-        width: width / 10, 
+        height: height / 5.7,
+        width: width / 12.5, 
         marginHorizontal:10,
         borderRadius:10     
     },

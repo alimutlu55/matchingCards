@@ -8,9 +8,22 @@ export default class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            cardType: 'deste1'
         };
     }
 
+
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('cardType');
+            if (value !== null) {
+                this.setState({cardType: value})
+                console.log('yeni değer', value);
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
     componentDidMount() {
 
     }

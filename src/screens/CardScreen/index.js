@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, Dimensions, ImageBackground, Image, TouchableOpacity, BackHandler, Platform, StatusBar } from 'react-native';
+import { View, Text, SafeAreaView, Dimensions, ImageBackground, Image, AsyncStorage, TouchableOpacity, BackHandler, Platform, StatusBar } from 'react-native';
 import ScreenItem from '../../components/business/ScreenItem';
 import pokemonsCardList from '../../documents/pokemons';
 import pokemonsMatchedCardList from '../../documents/matchOfCards';
+import deste1CardList from '../../documents/deste1';
+import deste1MatchedCardList from '../../documents/matchOfCardsD1';
 import Sound from 'react-native-sound';
 import PassingScreen from '../PassingScreen'
 import TimeOutItem from '../../components/business/TimeOutItem'
@@ -16,11 +18,13 @@ export default class CardScreen extends Component {
         this.state = {
             stage: 1,
             timer: null,
-            counter: 0,
+            counter: 0
         };
         this.isClickedTwo = 0
         this.isMatch = false
         this.matchControlList = []
+        this.cardListSize = 0
+        this.maxMatchOfStage = 0
         this.matches = 0
         this.loggedCardList = []
         this.cardList = []
@@ -28,7 +32,9 @@ export default class CardScreen extends Component {
         this.lock = false
         this.startTimer = false;
         this.timerHeight = height / 1.3
+        this.cardType = this.props.navigation.state.params.cardType
         this.gameType = this.props.navigation.state.params.gameType
+
     }
 
     componentDidMount() {
@@ -83,10 +89,22 @@ export default class CardScreen extends Component {
         for (var i = 0; i < numberOfCards / 2; i++) {
             var randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
             numbers.splice(numbers.indexOf(randomNumber), 1);
-            this.cardList.push(pokemonsCardList[randomNumber]);
-            this.cardList.push(pokemonsMatchedCardList[randomNumber]);
-            pokemonsCardList[randomNumber].isBack = true
-            pokemonsMatchedCardList[randomNumber].isBack = true
+
+            if (this.cardType === 'deste1') {
+                this.cardList.push(deste1CardList[randomNumber]);
+                this.cardList.push(deste1MatchedCardList[randomNumber]);
+            } else if (this.cardType === 'deste2') {
+                this.cardList.push(pokemonsCardList[randomNumber]);
+                this.cardList.push(pokemonsMatchedCardList[randomNumber]);
+            }
+
+            if (this.cardType === 'deste1') {
+                deste1CardList[randomNumber].isBack = true
+                deste1MatchedCardList[randomNumber].isBack = true
+            } else if (this.cardType === 'deste2') {
+                pokemonsCardList[randomNumber].isBack = true
+                pokemonsMatchedCardList[randomNumber].isBack = true
+            }
         }
         this.shuffle(this.cardList)
         this.isFilled = true
@@ -185,14 +203,14 @@ export default class CardScreen extends Component {
     }
 
     loadControls(stage) {
-        if (stage == 1) cardListSize = 4, maxMatchOfStage = 2, this.cardListWidth = 2.4, this.state.counter = 15, this.time = 15;
-        if (stage == 2) cardListSize = 6, maxMatchOfStage = 3, this.cardListWidth = 1.6, this.state.counter = 20, this.time = 20;
-        if (stage == 3) cardListSize = 8, maxMatchOfStage = 4, this.cardListWidth = 1.4, this.state.counter = 30, this.time = 30;
-        if (stage == 4) cardListSize = 10, maxMatchOfStage = 5, this.cardListWidth = 1.3, this.state.counter = 40, this.time = 40;;
-        if (stage == 5) cardListSize = 12, maxMatchOfStage = 6, this.cardListWidth = 1.3, this.state.counter = 50, this.time = 50;;
-        if (stage == 6) cardListSize = 16, maxMatchOfStage = 8, this.cardListWidth = 1.5, this.state.counter = 60, this.time = 60;
-        if (stage == 7) cardListSize = 20, maxMatchOfStage = 10, this.cardListWidth = 1.4, this.state.counter = 90, this.time = 90;
-        if (stage == 8) cardListSize = 28, maxMatchOfStage = 14, this.cardListWidth = 1.2, this.state.counter = 120, this.time = 120;
+        if (stage == 1) this.cardListSize = 4, this.maxMatchOfStage = 2, this.cardListWidth = 2.4, this.state.counter = 15, this.time = 15;
+        if (stage == 2) this.cardListSize = 6, this.maxMatchOfStage = 3, this.cardListWidth = 1.6, this.state.counter = 20, this.time = 20;
+        if (stage == 3) this.cardListSize = 8, this.maxMatchOfStage = 4, this.cardListWidth = 1.4, this.state.counter = 30, this.time = 30;
+        if (stage == 4) this.cardListSize = 10, this.maxMatchOfStage = 5, this.cardListWidth = 1.3, this.state.counter = 40, this.time = 40;;
+        if (stage == 5) this.cardListSize = 12, this.maxMatchOfStage = 6, this.cardListWidth = 1.3, this.state.counter = 50, this.time = 50;;
+        if (stage == 6) this.cardListSize = 16, this.maxMatchOfStage = 8, this.cardListWidth = 1.5, this.state.counter = 60, this.time = 60;
+        if (stage == 7) this.cardListSize = 20, this.maxMatchOfStage = 10, this.cardListWidth = 1.4, this.state.counter = 90, this.time = 90;
+        if (stage == 8) this.cardListSize = 28, this.maxMatchOfStage = 14, this.cardListWidth = 1.2, this.state.counter = 120, this.time = 120;
         this.timerHeight = height / 1.3
         this.lock = true;
     }
@@ -217,9 +235,9 @@ export default class CardScreen extends Component {
             this.loadControls(stage);
         }
         if (!this.isFilled) {    // CARDLİST DOLU MU KONTROL YAPAR BOŞ İSE DOLDURUR.
-            this.fillCardList(cardListSize);
+            this.fillCardList(this.cardListSize);
         }
-        if (this.matches < maxMatchOfStage) { // Eşleşme durumunun kontrolünü yapar.
+        if (this.matches < this.maxMatchOfStage) { // Eşleşme durumunun kontrolünü yapar.
             if (this.gameType == "timely") {              // Süreli süresiz kontrolü yapar.
                 if (!this.isTimeOut()) {      // Süreli ise zaman kontrolü yapar.
                     return (

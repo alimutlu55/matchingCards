@@ -3,6 +3,8 @@ import { View, Text, SafeAreaView, Dimensions, Image, ImageBackground, BackHandl
 import ScreenItem from '../../components/business/ScreenItem';
 import pokemonsCardList from '../../documents/pokemons';
 import pokemonsMatchedCardList from '../../documents/matchOfCards';
+import deste1CardList from '../../documents/deste1';
+import deste1MatchedCardList from '../../documents/matchOfCardsD1';
 import GameFinishScreen from '../../screens/GameFinishScreen';
 import characterList from '../../documents/characters';
 import Sound from 'react-native-sound';
@@ -34,11 +36,19 @@ export default class index extends Component {
         this.player2.character = this.props.navigation.state.params.player2
         this.currentPlayer = this.player1.character;
         this.difficulty = this.props.navigation.state.params.difficulty
+        this.cardType = this.props.navigation.state.params.cardType
 
     }
 
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+         //Here is the Trick
+         const { navigation } = this.props;             //ÖNEMLİİİİİ
+         //Adding an event listner om focus
+         //So whenever the screen will have focus it will set the state to zero
+         this.focusListener = navigation.addListener('didFocus', () => {
+             this.setState({ count: 0 });
+         });
     }
     componentWillUnmount() {
         this.backHandler.remove()
@@ -62,15 +72,27 @@ export default class index extends Component {
         return array;
     }
 
-    fillCardList(number) {
+    fillCardList(numberOfCards) {
         var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-        for (var i = 0; i < number / 2; i++) {
+        for (var i = 0; i < numberOfCards / 2; i++) {
             var randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
             numbers.splice(numbers.indexOf(randomNumber), 1);
-            this.cardList.push(pokemonsCardList[randomNumber]);
-            this.cardList.push(pokemonsMatchedCardList[randomNumber]);
-            pokemonsCardList[randomNumber].isBack = true
-            pokemonsMatchedCardList[randomNumber].isBack = true
+            
+            if (this.cardType === 'deste1') {
+                this.cardList.push(deste1CardList[randomNumber]);
+                this.cardList.push(deste1MatchedCardList[randomNumber]);
+            } else {
+                this.cardList.push(pokemonsCardList[randomNumber]);
+                this.cardList.push(pokemonsMatchedCardList[randomNumber]);
+            }
+
+            if (this.cardType === 'deste1') {
+                deste1CardList[randomNumber].isBack = true
+                deste1MatchedCardList[randomNumber].isBack = true
+            } else {
+                pokemonsCardList[randomNumber].isBack = true
+                pokemonsMatchedCardList[randomNumber].isBack = true
+            }
         }
         this.shuffle(this.cardList)
         this.isFilled = true
