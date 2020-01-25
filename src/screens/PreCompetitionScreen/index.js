@@ -95,6 +95,10 @@ export default class index extends Component {
         this.isFirstSelect = true
     }
     render() {
+        const Banner = firebase.admob.Banner;
+        const AdRequest = firebase.admob.AdRequest;
+        const request = new AdRequest();
+        const unitId = 'ca-app-pub-8367276121301574/2138547137';
         return (
             <View>
                 <StatusBar hidden={true} />
@@ -186,6 +190,12 @@ export default class index extends Component {
                             </SafeAreaView>
                         </View>
                     </View>
+                    <Banner
+                        unitId={unitId}
+                        size={"SMART_BANNER"}
+                        request={request.build()}
+    
+                    />
                 </ImageBackground>
             </View>
 

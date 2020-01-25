@@ -34,7 +34,14 @@ export default class CardScreen extends Component {
         this.timerHeight = height / 1.3
         this.cardType = this.props.navigation.state.params.cardType
         this.gameType = this.props.navigation.state.params.gameType
-
+        this.stageOneTime = this.props.navigation.state.params.stageOneTime
+        this.stageTwoTime = this.props.navigation.state.params.stageTwoTime
+        this.stageThreeTime = this.props.navigation.state.params.stageThreeTime
+        this.stageFourTime = this.props.navigation.state.params.stageFourTime
+        this.stageFiveTime = this.props.navigation.state.params.stageFiveTime
+        this.stageSixTime = this.props.navigation.state.params.stageSixTime
+        this.stageSevenTime = this.props.navigation.state.params.stageSevenTime
+        this.stageEightTime = this.props.navigation.state.params.stageEightTime
     }
 
     componentDidMount() {
@@ -203,14 +210,14 @@ export default class CardScreen extends Component {
     }
 
     loadControls(stage) {
-        if (stage == 1) this.cardListSize = 4, this.maxMatchOfStage = 2, this.cardListWidth = 2.4, this.state.counter = 15, this.time = 15;
-        if (stage == 2) this.cardListSize = 6, this.maxMatchOfStage = 3, this.cardListWidth = 1.6, this.state.counter = 20, this.time = 20;
-        if (stage == 3) this.cardListSize = 8, this.maxMatchOfStage = 4, this.cardListWidth = 1.4, this.state.counter = 30, this.time = 30;
-        if (stage == 4) this.cardListSize = 10, this.maxMatchOfStage = 5, this.cardListWidth = 1.3, this.state.counter = 40, this.time = 40;;
-        if (stage == 5) this.cardListSize = 12, this.maxMatchOfStage = 6, this.cardListWidth = 1.3, this.state.counter = 50, this.time = 50;;
-        if (stage == 6) this.cardListSize = 16, this.maxMatchOfStage = 8, this.cardListWidth = 1.5, this.state.counter = 60, this.time = 60;
-        if (stage == 7) this.cardListSize = 20, this.maxMatchOfStage = 10, this.cardListWidth = 1.4, this.state.counter = 90, this.time = 90;
-        if (stage == 8) this.cardListSize = 28, this.maxMatchOfStage = 14, this.cardListWidth = 1.2, this.state.counter = 120, this.time = 120;
+        if (stage == 1) this.cardListSize = 4, this.maxMatchOfStage = 2, this.cardListWidth = 2.4, this.state.counter = this.stageOneTime, this.time = this.stageOneTime;
+        if (stage == 2) this.cardListSize = 6, this.maxMatchOfStage = 3, this.cardListWidth = 1.6, this.state.counter = this.stageTwoTime, this.time = this.stageTwoTime;
+        if (stage == 3) this.cardListSize = 8, this.maxMatchOfStage = 4, this.cardListWidth = 1.4, this.state.counter = this.stageThreeTime, this.time = this.stageThreeTime;
+        if (stage == 4) this.cardListSize = 10, this.maxMatchOfStage = 5, this.cardListWidth = 1.3, this.state.counter = this.stageFourTime, this.time = this.stageFourTime;;
+        if (stage == 5) this.cardListSize = 12, this.maxMatchOfStage = 6, this.cardListWidth = 1.5, this.state.counter = this.stageFiveTime, this.time = this.stageFiveTime;;
+        if (stage == 6) this.cardListSize = 16, this.maxMatchOfStage = 8, this.cardListWidth = 1.5, this.state.counter = this.stageSixTime, this.time = this.stageSixTime;
+        if (stage == 7) this.cardListSize = 20, this.maxMatchOfStage = 10, this.cardListWidth = 1.4, this.state.counter = this.stageSevenTime, this.time = this.stageSevenTime;
+        if (stage == 8) this.cardListSize = 28, this.maxMatchOfStage = 14, this.cardListWidth = 1.2, this.state.counter = this.stageEightTime, this.time = this.stageEightTime;
         this.timerHeight = height / 1.3
         this.lock = true;
     }
