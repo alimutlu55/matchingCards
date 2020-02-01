@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, ImageBackground, Platform, StatusBar } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, ImageBackground, StatusBar } from 'react-native';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
 import characterList from '../../documents/characters';
 import hardShip from '../../documents/hardShip';

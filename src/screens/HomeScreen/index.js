@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
+import Sound from 'react-native-sound';
 
 
 
@@ -28,6 +29,29 @@ export default class HomeScreen extends Component {
         }
         this.turnValue = new Animated.Value(0);
         this.cardType = 'deste1'
+    }
+
+    giveSound(getType) {
+        var voicePath = getType + '_' + 'voice.mp3';
+        var sound = new Sound(voicePath, Sound.MAIN_BUNDLE, (error) => {
+            if (error) {
+                console.log('failed to load the sound', error);
+                return;
+            }
+            this.playSound(sound);
+        });
+    }
+
+    playSound(sound) {
+        sound.play((success) => {
+            if (success) {
+                console.log('successfully finished playing');
+                sound.release();
+            } else {
+                console.log('playback failed due to audio decoding errors');
+                sound.release();
+            }
+        });
     }
 
     _turn() {
@@ -133,7 +157,7 @@ export default class HomeScreen extends Component {
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>
                         <TouchableOpacity
-                            onPress={() => this.setState({ visible: true })}>
+                            onPress={() => { this.setState({ visible: true }), this.giveSound('popUp')}}>
                             <Animated.Image
                                 style={{
                                     opacity: opacity,

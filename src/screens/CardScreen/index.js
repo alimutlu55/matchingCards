@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, Dimensions, ImageBackground, Image, AsyncStorage, TouchableOpacity, BackHandler, Platform, StatusBar } from 'react-native';
+import { View, SafeAreaView, Dimensions, ImageBackground, Image, AsyncStorage, TouchableOpacity, BackHandler, Platform, StatusBar } from 'react-native';
 import ScreenItem from '../../components/business/ScreenItem';
 import pokemonsCardList from '../../documents/pokemons';
 import pokemonsMatchedCardList from '../../documents/matchOfCards';
@@ -8,7 +8,6 @@ import deste1MatchedCardList from '../../documents/matchOfCardsD1';
 import Sound from 'react-native-sound';
 import PassingScreen from '../PassingScreen'
 import TimeOutItem from '../../components/business/TimeOutItem'
-import firebase from 'react-native-firebase'
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;

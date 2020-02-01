@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, Dimensions, Image, ImageBackground, BackHandler, Platform, StatusBar } from 'react-native';
+import { View, Text, Dimensions, Image, ImageBackground, BackHandler, StatusBar } from 'react-native';
 import ScreenItem from '../../components/business/ScreenItem';
 import pokemonsCardList from '../../documents/pokemons';
 import pokemonsMatchedCardList from '../../documents/matchOfCards';
 import deste1CardList from '../../documents/deste1';
 import deste1MatchedCardList from '../../documents/matchOfCardsD1';
-import GameFinishScreen from '../../screens/GameFinishScreen';
-import characterList from '../../documents/characters';
 import Sound from 'react-native-sound';
-import characterImages from '../../documents/characters';
-import firebase from 'react-native-firebase';
 
 
 const height = Dimensions.get('window').height;

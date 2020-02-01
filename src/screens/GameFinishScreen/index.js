@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, ImageBackground, Dimensions, Platform, StatusBar } from 'react-native';
+import { View, Image, TouchableOpacity, ImageBackground, Dimensions, StatusBar } from 'react-native';
 import firebase from 'react-native-firebase';
 
 const height = Dimensions.get('window').height;

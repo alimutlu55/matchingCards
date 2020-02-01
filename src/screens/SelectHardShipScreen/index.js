@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, Dimensions, Image, TouchableOpacity, BackHandler, StatusBar, AsyncStorage, Animated } from 'react-native';
+import { View, ImageBackground, Dimensions, Image, TouchableOpacity, BackHandler, StatusBar, AsyncStorage, Animated } from 'react-native';
 import hardShip from '../../documents/hardShip';
 import firebase from 'react-native-firebase';
 
