@@ -17,7 +17,7 @@ export default class index extends Component {
         try {
             const value = await AsyncStorage.getItem('cardType');
             if (value !== null) {
-                this.setState({cardType: value})
+                this.setState({ cardType: value })
                 console.log('yeni değer', value);
             }
         } catch (error) {
@@ -38,6 +38,7 @@ export default class index extends Component {
             advert.show();
         });
     };
+
     render() {
         if (this.props.gameType != 'timely') {
             if (this.props.currentStage == '4' || this.props.currentStage == '6' || this.props.currentStage == '8') {

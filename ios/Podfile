@@ -37,7 +37,7 @@ target 'matchingcards' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
 
   pod 'react-native-admob', :path => '../node_modules/react-native-admob'
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, Dimensions, ImageBackground, Image, AsyncStorage, TouchableOpacity, BackHandler, Platform, StatusBar } from 'react-native';
+import { View, SafeAreaView, Dimensions, Animated, Easing, Modal, ImageBackground, Image, Text, TouchableOpacity, BackHandler, Platform, StatusBar } from 'react-native';
 import ScreenItem from '../../components/business/ScreenItem';
 import pokemonsCardList from '../../documents/pokemons';
 import pokemonsMatchedCardList from '../../documents/matchOfCards';
@@ -8,6 +8,7 @@ import deste1MatchedCardList from '../../documents/matchOfCardsD1';
 import Sound from 'react-native-sound';
 import PassingScreen from '../PassingScreen'
 import TimeOutItem from '../../components/business/TimeOutItem'
+import firebase from 'react-native-firebase';
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -17,7 +18,9 @@ export default class CardScreen extends Component {
         this.state = {
             stage: 1,
             timer: null,
-            counter: 0
+            counter: 0,
+            health: 3,
+            modalVisible: false
         };
         this.isClickedTwo = 0
         this.isMatch = false
@@ -41,6 +44,7 @@ export default class CardScreen extends Component {
         this.stageSixTime = this.props.navigation.state.params.stageSixTime
         this.stageSevenTime = this.props.navigation.state.params.stageSevenTime
         this.stageEightTime = this.props.navigation.state.params.stageEightTime
+        this.springDegeri = new Animated.Value(0.3)
     }
 
     componentDidMount() {
@@ -225,6 +229,7 @@ export default class CardScreen extends Component {
     }
 
     changeScreen(value) {
+        this.endOfStage();
         if (value == 'Finish') {
             this.endOfStage()
             this.props.navigation.navigate('EndOfGame')
@@ -233,7 +238,47 @@ export default class CardScreen extends Component {
             this.endOfStage()
             this.props.navigation.navigate('Home')
         }
+        if (value == 'HardShip') {
+            this.endOfStage()
+            this.props.navigation.navigate('HardShip')
+        }
+    }
 
+    getHealth() {
+        const advert = firebase.admob().rewarded('ca-app-pub-8367276121301574/4941741196');
+
+        const AdRequest = firebase.admob.AdRequest;
+        const request = new AdRequest();
+        request.addKeyword('foo').addKeyword('bar');
+
+        // Load the advert with our AdRequest
+        advert.loadAd(request.build());
+
+        advert.on('onAdLoaded', () => {
+            console.log('Advert ready to show.');
+            advert.show();
+        });
+
+        advert.on('onRewarded', (event) => {
+            this.endOfStage();
+            console.log(event)
+            this.setState({
+                health: event.payload.amount,
+                modalVisible: !this.state.modalVisible
+            })
+        });
+        
+    }
+
+    springOynat() {
+        this.springDegeri.setValue(0.3)
+        Animated.spring(
+            this.springDegeri,
+            {
+                toValue: 1,
+                friction: 1
+            }
+        ).start()
     }
 
     loadStage(stage) {
@@ -253,12 +298,21 @@ export default class CardScreen extends Component {
                                 source={require("../../images/wallpaper/imgPlayGame.jpg")}
                                 style={{ width: '100%', height: '100%' }}
                             >
-                                <View style={{ width: 60, height: 45, padding: 10 }}>
-                                    <TouchableOpacity
-                                        onPress={() => this.changeScreen('Home')}
-                                    >
-                                        <Image style={{ width: 60, height: 40 }} source={require("../../images/icons/icnHomePage.png")} />
-                                    </TouchableOpacity>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={{ width: 60, height: 45, padding: 10 }}>
+                                        <TouchableOpacity
+                                            onPress={() => this.changeScreen('Home')}
+                                        >
+                                            <Image style={{ width: 60, height: 40 }} source={require("../../images/icons/icnHomePage.png")} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ width: 70, height: 50, padding: 10, marginLeft: width * 90 / 100, position: 'absolute', justifyContent: 'center', alignItems: 'center' }}>
+                                        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                            <Image style={{ width: 70, height: 50, position: 'absolute' }} source={require("../../images/icons/heart.png")} />
+                                            <Text style={{ fontWeight: 'bold', color: 'white' }}>{this.state.health}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
                                 </View>
                                 <View style={{ height: height * 77 / 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: width }}>
                                     <View style={{ width: width / this.cardListWidth, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -276,6 +330,47 @@ export default class CardScreen extends Component {
                         </View>
                     )
                 } else {
+                    if (this.state.health > 0) {
+                        this.state.health--;
+                    }
+                    if (this.state.health == 0) {
+                        this.state.modalVisible = true
+                        this.springOynat()
+                        return (
+                            <Modal
+                                animationType="fade"
+                                transparent={false}
+                                visible={this.state.modalVisible}
+                                onRequestClose={() => {
+                                    Alert.alert('Modal has been closed.');
+                                }}>
+                                <ImageBackground
+                                    source={require("../../images/wallpaper/imgPlayGame.jpg")}
+                                    style={{ width: '100%', height: '100%' }}
+                                >
+                                    <View style={{ width: 60, height: 60, padding: 10 }}>
+                                        <TouchableOpacity
+                                            onPress={() => this.changeScreen('HardShip')}
+                                        >
+                                            <Image style={{ width: 35, height: 30 }} source={require("../../images/icons/back.png")} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 50 }}>
+                                        <TouchableOpacity
+                                            onPress={() => this.getHealth()}>
+                                            <View style={{ width: 100, height: 80, justifyContent: 'center', alignItems: 'center' }}>
+                                                <Animated.Image
+                                                    style={{ width: 70, height: 50, transform: [{ scale: this.springDegeri }] }}
+                                                    source={require("../../images/icons/heart.png")}
+                                                />
+                                                <Text style={{ fontWeight: 'bold', color: 'green' }}> Get Health!</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                </ImageBackground>
+                            </Modal >
+                        )
+                    }
                     this.endOfStage();
                     return (
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
